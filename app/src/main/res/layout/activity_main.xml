@@ -3,85 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/clear_sky"
+    android:background="?attr/colorSecondaryVariant"
     android:orientation="vertical"
-    android:paddingBottom="12dp"
-    >
+    android:paddingBottom="12dp">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/home_page_name"
-    android:textColor="@color/white"
-    android:textSize="@dimen/text_size"
-    android:paddingHorizontal="@dimen/medium_padding"
-    android:paddingTop="14dp"
-    />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/medium_padding"
+        android:paddingTop="14dp"
+        android:paddingBottom="8dp"
+        android:text="@string/home_page_name"
+        android:background="?attr/colorSecondaryVariant"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clear_sky"
+        android:background="?attr/colorSecondaryVariant"
         android:orientation="vertical"
-        android:padding="@dimen/medium_padding"
-        >
+        android:padding="@dimen/medium_padding">
 
         <Button
             android:id="@+id/search_button"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero"
-            android:layout_marginTop="24dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:insetTop="@dimen/zero"
-            android:insetBottom="@dimen/zero"
+            style="@style/MainButtonStyle"
             android:text="@string/search"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size"
-            app:cornerRadius="@dimen/medium_padding"
-            app:icon="@drawable/search"
-            app:iconGravity="textStart"
-            app:iconPadding="10dp"
-            app:iconTint="@color/text_color"
-            android:textAllCaps="false" />
+            app:icon="@drawable/search" />
 
         <Button
             android:id="@+id/media_button"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero"
-            android:layout_marginTop="@dimen/medium_padding"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:insetTop="@dimen/zero"
-            android:insetBottom="@dimen/zero"
+            style="@style/MainButtonStyle"
             android:text="@string/media_library"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size"
             app:cornerRadius="@dimen/medium_padding"
-            app:icon="@drawable/media"
-            app:iconGravity="textStart"
-            app:iconPadding="10dp"
-            app:iconTint="@color/text_color"
-            android:textAllCaps="false"/>
+            app:icon="@drawable/media" />
 
         <Button
             android:id="@+id/settings_button"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero"
-            android:layout_marginTop="@dimen/medium_padding"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:insetTop="@dimen/zero"
-            android:insetBottom="@dimen/zero"
+            style="@style/MainButtonStyle"
             android:text="@string/settings"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size"
             app:cornerRadius="@dimen/medium_padding"
             app:icon="@drawable/settings"
-            app:iconGravity="textStart"
-            app:iconPadding="10.66dp"
-            app:iconTint="@color/text_color"
-            android:textAllCaps="false"/>
+            app:iconPadding="10.66dp" />
 
     </LinearLayout>
 
