@@ -33,7 +33,7 @@
 
     <Switch
         android:layout_width="match_parent"
-        android:layout_height="61dp"
+        android:layout_height="60dp"
         android:layout_gravity="end"
         android:layout_marginLeft="16dp"
         android:text="@string/dark_theme"

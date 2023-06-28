@@ -26,6 +26,10 @@
         android:padding="@dimen/medium_padding">
 
         <Button
+            android:layout_width = "match_parent"
+            android:layout_height="@dimen/zero"
+            android:layout_marginTop = "@dimen/medium_padding"
+            android:layout_weight = "1"
             android:id="@+id/search_button"
             style="@style/MainButtonStyle"
             android:text="@string/search"
@@ -33,6 +37,10 @@
 
         <Button
             android:id="@+id/media_button"
+            android:layout_width = "match_parent"
+            android:layout_height="@dimen/zero"
+            android:layout_marginTop = "@dimen/medium_padding"
+            android:layout_weight = "1"
             style="@style/MainButtonStyle"
             android:text="@string/media_library"
             app:cornerRadius="@dimen/medium_padding"
@@ -40,6 +48,10 @@
 
         <Button
             android:id="@+id/settings_button"
+            android:layout_width = "match_parent"
+            android:layout_height="@dimen/zero"
+            android:layout_marginTop = "@dimen/medium_padding"
+            android:layout_weight = "1"
             style="@style/MainButtonStyle"
             android:text="@string/settings"
             app:cornerRadius="@dimen/medium_padding"

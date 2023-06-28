@@ -14,32 +14,33 @@ class SettingsActivity : AppCompatActivity() {
 
         val imageBack = findViewById<ImageView>(R.id.image_back)
         imageBack.setOnClickListener {
-            val backImageIntent = Intent(this, MainActivity::class.java)
-            startActivity(backImageIntent)
+            finish()
         }
 
         val texViewSupport = findViewById<TextView>(R.id.textViewSupport)
         texViewSupport.setOnClickListener {
-            val textViewSupportIntent = Intent(Intent.ACTION_SENDTO)
-            textViewSupportIntent.data = Uri.parse("mailto:")
-            textViewSupportIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail)))
-            textViewSupportIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_message))
-            startActivity(textViewSupportIntent)
+            Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail)))
+                putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_message))
+                startActivity(this)
+            }
         }
 
         val textViewShare = findViewById<TextView>(R.id.textViewShare)
         textViewShare.setOnClickListener {
-            val textViewShareIntent = Intent(Intent.ACTION_SEND)
-            textViewShareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.android_developer_link))
-            textViewShareIntent.type = "text/plain"
-            startActivity(textViewShareIntent)
+            Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, getString(R.string.android_developer_link))
+                type = "text/plain"
+                startActivity(this)
+            }
         }
 
         val textViewUseAgreement = findViewById<TextView>(R.id.textViewUseAgreement)
         textViewUseAgreement.setOnClickListener {
-            val url = getString(R.string.use_agreement_text)
-            val textViewUseAgreementIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(textViewUseAgreementIntent)
+            Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.use_agreement_text))).apply {
+                startActivity(this)
+            }
         }
     }
 }

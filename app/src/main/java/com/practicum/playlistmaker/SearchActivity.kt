@@ -1,17 +1,19 @@
 package com.practicum.playlistmaker
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 
 class SearchActivity : AppCompatActivity() {
-    var searchEditTextValue: String = ""
+    private var searchEditTextValue: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +25,13 @@ class SearchActivity : AppCompatActivity() {
         val searchEditText = findViewById<EditText>(R.id.searchEditText)
 
         imageBack.setOnClickListener {
-            val backImageIntent = Intent(this, MainActivity::class.java)
-            startActivity(backImageIntent)
+            finish()
         }
 
         clearButton.setOnClickListener {
             searchEditText.setText("")
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
         }
 
         val simpleTextWatcher = object : TextWatcher {
@@ -69,7 +72,7 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.setText(searchEditTextValue)
     }
 
-    companion object {
+    private companion object {
         const val SEARCH_EDITTEXT = "SEARCH_EDITTEXT"
     }
 
