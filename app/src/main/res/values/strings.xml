@@ -7,5 +7,9 @@
     <string name="dark_theme">Темная тема</string>
     <string name="share">Поделиться приложением</string>
     <string name="support">Написать в поддержку</string>
-    <string name="terms_of_use">Пользовательское соглашение</string>
+    <string name="use_agreement">Пользовательское соглашение</string>
+    <string name="android_developer_link">https://practicum.yandex.ru/android-developer/</string>
+    <string name="mail_message">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="mail">volkova.yulia88@yandex.ru</string>
+    <string name="use_agreement_text">https://yandex.ru/legal/practicum_offer/</string>
 </resources>
