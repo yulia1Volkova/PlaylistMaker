@@ -3,6 +3,12 @@
     <dimen name="medium_padding">16dp</dimen>
     <dimen name="text_size">22sp</dimen>
     <dimen name="zero">0dp</dimen>
-    <dimen name="settings_button">61dp</dimen>
+    <dimen name="settings_button">60dp</dimen>
     <dimen name="settings_text_size">16sp</dimen>
+    <dimen name="search_padding">12dp</dimen>
+    <dimen name="image_size">44dp</dimen>
+    <dimen name="search_margin">8dp</dimen>
+    <dimen name="image_size_small">24dp</dimen>
+    <dimen name="small_text_size">11sp</dimen>
+
 </resources>
