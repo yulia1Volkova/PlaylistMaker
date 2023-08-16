@@ -35,4 +35,30 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textFontWeight">400</item>
     </style>
+
+    <style name="NoInternetImg">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">@dimen/placeholder_text_size</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:src">@drawable/nointd</item>
+    </style>
+
+    <style name="NothingFound">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">@dimen/placeholder_text_size</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:src">@drawable/nothingn</item>
+    </style>
+
+    <style name="ButtonUpdate">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/settings_text_size</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="backgroundTint">@color/text_color</item>
+    </style>
+
 </resources>
