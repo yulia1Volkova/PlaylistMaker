@@ -139,12 +139,7 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.setText(searchEditTextValue)
     }
 
-
-    private companion object {
-        const val SEARCH_EDITTEXT = "SEARCH_EDITTEXT"
-    }
-
-    fun request(){
+    private fun request(){
         if (searchEditText.text.isNotEmpty()) {
             ITunesService.search(searchEditText.text.toString())
                 .enqueue(object : Callback<TrackResponse> {
@@ -198,5 +193,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
     }
-
+    private companion object {
+        const val SEARCH_EDITTEXT = "SEARCH_EDITTEXT"
+    }
 }
