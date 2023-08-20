@@ -10,5 +10,11 @@
     <dimen name="search_margin">8dp</dimen>
     <dimen name="image_size_small">24dp</dimen>
     <dimen name="small_text_size">11sp</dimen>
+    <dimen name="placeholder_text_size">19sp</dimen>
+    <dimen name="image_placeholder">120dp</dimen>
+    <dimen name="update_button">92dp</dimen>
+    <dimen name="update_button_w">92dp</dimen>
+    <dimen name="update_button_h">36dp</dimen>
+    <dimen name="update_radius">56dp</dimen>
 
 </resources>
