@@ -1,12 +1,11 @@
 package com.practicum.playlistmaker
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -14,32 +13,34 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+const val HISTORY_PREFERENCES = "history_preferences"
+const val HISTORY_KEY = "key_for_history"
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
+    private companion object {
+        const val SEARCH_EDITTEXT = "SEARCH_EDITTEXT"
+    }
+
+    private lateinit var editSearchHistory: MutableList<Track>
     private var searchEditTextValue: String = ""
-
     private val baseUrl = "https://itunes.apple.com"
-
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
     private val ITunesService = retrofit.create(ITunesAPI::class.java)
 
     private val tracks = ArrayList<Track>()
-
-    private val adapter = TrackAdapter()
+    private val adapter = TrackAdapter(this)
+    private val adapterHistory = TrackAdapter(this)
 
     private lateinit var placeholderMessage: TextView
     private lateinit var imageBack: ImageView
@@ -50,6 +51,9 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var nothingFindImage: ImageView
     private lateinit var noInternetMessage: TextView
     private lateinit var updateButton: Button
+    private lateinit var historyView: View
+    private lateinit var clearHistoryBtn: Button
+    private lateinit var historyTextView: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,13 +67,31 @@ class SearchActivity : AppCompatActivity() {
         placeholderMessage = findViewById(R.id.placeholderMessage)
         placeholderImage = findViewById(R.id.placeholderImage)
         nothingFindImage = findViewById(R.id.nothingFindImage)
-        noInternetMessage= findViewById(R.id.noInternetMessage)
-        updateButton= findViewById(R.id.updateButton)
+        noInternetMessage = findViewById(R.id.noInternetMessage)
+        updateButton = findViewById(R.id.updateButton)
+        historyView = findViewById(R.id.historyView)
+        clearHistoryBtn = findViewById(R.id.clearHistory)
+        historyTextView = findViewById(R.id.historyTextView)
+
+        var historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
+        val searchHistory = SearchHistory(historySharedPreferences)
 
         adapter.tracks = tracks
-
         recyclerTrack.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerTrack.adapter = adapter
+
+        var historyList: MutableList<Track> =
+            ((searchHistory.read())?.toMutableList() ?: listOf<Track>()).toMutableList()
+        if (historyList != null) {
+            if (historyList.isNotEmpty()) {
+                adapterHistory.tracks = historyList as ArrayList<Track>
+                recyclerTrack.adapter = adapterHistory
+            }
+        }
+
+        searchEditText.setOnFocusChangeListener { view, hasFocus ->
+            historyView.visibility =
+                if (hasFocus && searchEditText.text.isEmpty()) View.VISIBLE else View.GONE
+        }
 
         imageBack.setOnClickListener {
             finish()
@@ -77,11 +99,29 @@ class SearchActivity : AppCompatActivity() {
 
         clearButton.setOnClickListener {
             searchEditText.setText("")
-            tracks.clear()
-            adapter.notifyDataSetChanged()
+            historyTextView.visibility = View.VISIBLE
+            clearHistoryBtn.visibility = View.VISIBLE
+            recyclerTrack.adapter = adapterHistory
+            adapterHistory.notifyDataSetChanged()
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
+            nothingFindImage.visibility = View.GONE
+            placeholderMessage.visibility = View.GONE
+            noInternetMessage.visibility = View.GONE
+            placeholderImage.visibility = View.GONE
+
+        }
+
+        clearHistoryBtn.setOnClickListener {
+
+            historySharedPreferences.edit()
+                .clear()
+                .apply()
+            tracks.clear()
+            adapterHistory.tracks=tracks
+            adapterHistory.notifyDataSetChanged()
+            historyView.visibility = View.GONE
         }
 
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
@@ -93,22 +133,31 @@ class SearchActivity : AppCompatActivity() {
         }
 
         updateButton.setOnClickListener {
-            request()
-            placeholderImage.visibility = View.GONE
+
+            placeholderMessage.visibility = View.GONE
             noInternetMessage.visibility = View.GONE
             updateButton.visibility = View.GONE
-            placeholderMessage.visibility = View.GONE
+            nothingFindImage.visibility = View.GONE
+            placeholderImage.visibility = View.GONE
+
+            request()
         }
 
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // empty
+                //empty
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchEditTextValue = s.toString()
                 clearButton.visibility = clearButtonVisibility(s)
+
+                if (searchEditText.hasFocus() && s?.isEmpty() == true) {
+                    historyView.visibility = View.VISIBLE
+                } else {
+                    historyView.visibility = View.GONE
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -139,7 +188,7 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.setText(searchEditTextValue)
     }
 
-    private fun request(){
+    private fun request() {
         if (searchEditText.text.isNotEmpty()) {
             ITunesService.search(searchEditText.text.toString())
                 .enqueue(object : Callback<TrackResponse> {
@@ -148,24 +197,25 @@ class SearchActivity : AppCompatActivity() {
                         response: Response<TrackResponse>
                     ) {
                         if (response.code() == 200) {
+                            tracks.clear()
                             nothingFindImage.visibility = View.GONE
                             placeholderMessage.visibility = View.GONE
-                            tracks.clear()
+                            recyclerTrack.adapter = adapter
                             if (response.body()?.results?.isNotEmpty() == true) {
+                                historyView.visibility = View.VISIBLE
+                                clearHistoryBtn.visibility = View.GONE
+                                historyTextView.visibility = View.GONE
+
                                 tracks.addAll(response.body()?.results!!)
                                 adapter.notifyDataSetChanged()
                             }
                             if (tracks.isEmpty()) {
                                 showMessage(getString(R.string.nothing_found), true)
                             } else {
-                                showMessage("", true)
+                               showMessage("", true)
                             }
                         } else {
-                            showMessage(
-                                getString(R.string.something_went_wrong),
-
-                                false
-                            )
+                            showMessage(getString(R.string.something_went_wrong), false)
                         }
                     }
 
@@ -178,6 +228,7 @@ class SearchActivity : AppCompatActivity() {
                 })
         }
     }
+
     private fun showMessage(text: String, image: Boolean) {
         if (text.isNotEmpty()) {
             placeholderMessage.visibility = View.VISIBLE
@@ -193,7 +244,19 @@ class SearchActivity : AppCompatActivity() {
             }
         }
     }
-    private companion object {
-        const val SEARCH_EDITTEXT = "SEARCH_EDITTEXT"
+
+
+    override fun onTrackClick(track: Track) {
+        Log.d("SearchActivity", "onTrackClick $track ")
+        var historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
+        val searchHistory = SearchHistory(historySharedPreferences)
+        val searchHistoryList: MutableList<Track> =
+            ((searchHistory.read())?.toMutableList() ?: listOf<Track>()).toMutableList()
+        editSearchHistory = searchHistory.editList(searchHistoryList, track)
+        adapterHistory.tracks= editSearchHistory as ArrayList<Track>
+        adapterHistory.notifyDataSetChanged()
+
+
+
     }
 }

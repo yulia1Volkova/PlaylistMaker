@@ -43,28 +43,26 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/artistName"
                     style="@style/TrackInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:ellipsize="end"
                     android:lines="1"
                     tools:text="Artist">
 
                 </TextView>
-            </FrameLayout>
+
 
             <ImageView
                 android:layout_width="@dimen/search_padding"
                 android:layout_height="@dimen/search_padding"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic"></ImageView>
+                android:src="@drawable/ic">
+            </ImageView>
 
             <TextView
                 android:id="@+id/trackTime"
@@ -72,6 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
+                android:layout_weight="0"
                 android:lines="1"
                 tools:text="2:55"></TextView>
         </LinearLayout>

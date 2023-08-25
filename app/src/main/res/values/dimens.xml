@@ -16,5 +16,6 @@
     <dimen name="update_button_w">92dp</dimen>
     <dimen name="update_button_h">36dp</dimen>
     <dimen name="update_radius">56dp</dimen>
+    <dimen name="history_text">52dp</dimen>
 
 </resources>

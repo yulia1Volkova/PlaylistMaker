@@ -1,10 +1,11 @@
 package com.practicum.playlistmaker
 
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class TrackAdapter(
+    val trackClickListener: SearchActivity
 ) : RecyclerView.Adapter<TrackViewHolder>() {
 
     var tracks = ArrayList<Track>()
@@ -14,8 +15,24 @@ class TrackAdapter(
 
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(tracks[position])
+        val item = tracks[position]
+        holder.bind(item)
+        holder.setOnTrackListener(object :  onTrackClickListener{
+            override fun action() {
+                Log.d("TrackAdapter", "OnTrackClickListener $item ")
+                trackClickListener.onTrackClick(item)
+
+            }
+
+        })
+
     }
 
     override fun getItemCount() = tracks.size
+
+    interface TrackClickListener {
+        fun onTrackClick(track: Track)
+    }
+
 }
+
