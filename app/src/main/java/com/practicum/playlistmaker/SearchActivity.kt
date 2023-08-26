@@ -51,9 +51,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
     private lateinit var nothingFindImage: ImageView
     private lateinit var noInternetMessage: TextView
     private lateinit var updateButton: Button
-    private lateinit var historyView: View
     private lateinit var clearHistoryBtn: Button
     private lateinit var historyTextView: TextView
+    private lateinit var searchHistory: SearchHistory
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,28 +69,25 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
         nothingFindImage = findViewById(R.id.nothingFindImage)
         noInternetMessage = findViewById(R.id.noInternetMessage)
         updateButton = findViewById(R.id.updateButton)
-        historyView = findViewById(R.id.historyView)
         clearHistoryBtn = findViewById(R.id.clearHistory)
         historyTextView = findViewById(R.id.historyTextView)
 
         var historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
         val searchHistory = SearchHistory(historySharedPreferences)
 
-        adapter.tracks = tracks
-        recyclerTrack.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        var historyList: MutableList<Track> =
+        val searchHistoryList: MutableList<Track> =
             ((searchHistory.read())?.toMutableList() ?: listOf<Track>()).toMutableList()
-        if (historyList != null) {
-            if (historyList.isNotEmpty()) {
-                adapterHistory.tracks = historyList as ArrayList<Track>
-                recyclerTrack.adapter = adapterHistory
-            }
-        }
+
+        adapterHistory.tracks = searchHistoryList as ArrayList<Track>
+        recyclerTrack.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerTrack.adapter = adapterHistory
 
         searchEditText.setOnFocusChangeListener { view, hasFocus ->
-            historyView.visibility =
-                if (hasFocus && searchEditText.text.isEmpty()) View.VISIBLE else View.GONE
+            historyTextView.visibility =
+                if (hasFocus && searchEditText.text.isEmpty() && searchHistoryList.size!=0) View.VISIBLE else View.GONE
+            clearHistoryBtn.visibility = if (hasFocus && searchEditText.text.isEmpty()&& searchHistoryList.size!=0) View.VISIBLE else View.GONE
+            recyclerTrack.visibility =
+                if (hasFocus && searchEditText.text.isEmpty() && searchHistoryList.size!=0) View.VISIBLE else View.GONE
         }
 
         imageBack.setOnClickListener {
@@ -99,10 +96,20 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
 
         clearButton.setOnClickListener {
             searchEditText.setText("")
-            historyTextView.visibility = View.VISIBLE
-            clearHistoryBtn.visibility = View.VISIBLE
-            recyclerTrack.adapter = adapterHistory
-            adapterHistory.notifyDataSetChanged()
+            val searchHistoryList: MutableList<Track> =//searchHistory.read()!!.toMutableList()
+                ((searchHistory.read())?.toMutableList() ?: listOf<Track>()).toMutableList()
+            if (searchHistoryList.size == 0){
+                clearHistoryBtn.visibility= View.GONE
+                historyTextView.visibility= View.GONE
+            } else{
+                adapterHistory.tracks = searchHistoryList as ArrayList<Track>
+                recyclerTrack.adapter = adapterHistory
+                adapterHistory.notifyDataSetChanged()
+                clearHistoryBtn.visibility= View.VISIBLE
+                historyTextView.visibility= View.VISIBLE
+                recyclerTrack.visibility= View.VISIBLE
+            }
+
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
@@ -110,7 +117,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
             placeholderMessage.visibility = View.GONE
             noInternetMessage.visibility = View.GONE
             placeholderImage.visibility = View.GONE
-
         }
 
         clearHistoryBtn.setOnClickListener {
@@ -118,10 +124,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
             historySharedPreferences.edit()
                 .clear()
                 .apply()
-            tracks.clear()
-            adapterHistory.tracks=tracks
-            adapterHistory.notifyDataSetChanged()
-            historyView.visibility = View.GONE
+            historyTextView.visibility = View.GONE
+            clearHistoryBtn.visibility = View.GONE
+            recyclerTrack.visibility = View.GONE
+
         }
 
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
@@ -153,10 +159,15 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
                 searchEditTextValue = s.toString()
                 clearButton.visibility = clearButtonVisibility(s)
 
-                if (searchEditText.hasFocus() && s?.isEmpty() == true) {
-                    historyView.visibility = View.VISIBLE
+                if (searchEditText.hasFocus() && s?.isEmpty() == true && searchHistoryList.size != 0) {
+                    historyTextView.visibility = View.VISIBLE
+                    clearHistoryBtn.visibility = View.VISIBLE
+                    recyclerTrack.visibility = View.VISIBLE
+
                 } else {
-                    historyView.visibility = View.GONE
+                    historyTextView.visibility = View.GONE
+                    clearHistoryBtn.visibility = View.GONE
+                    recyclerTrack.visibility = View.GONE
                 }
             }
 
@@ -202,17 +213,18 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
                             placeholderMessage.visibility = View.GONE
                             recyclerTrack.adapter = adapter
                             if (response.body()?.results?.isNotEmpty() == true) {
-                                historyView.visibility = View.VISIBLE
+                                recyclerTrack.visibility = View.VISIBLE
                                 clearHistoryBtn.visibility = View.GONE
                                 historyTextView.visibility = View.GONE
 
                                 tracks.addAll(response.body()?.results!!)
+                                adapter.tracks=tracks
                                 adapter.notifyDataSetChanged()
                             }
                             if (tracks.isEmpty()) {
                                 showMessage(getString(R.string.nothing_found), true)
                             } else {
-                               showMessage("", true)
+                                showMessage("", true)
                             }
                         } else {
                             showMessage(getString(R.string.something_went_wrong), false)
@@ -247,15 +259,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
 
 
     override fun onTrackClick(track: Track) {
-        Log.d("SearchActivity", "onTrackClick $track ")
         var historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
-        val searchHistory = SearchHistory(historySharedPreferences)
-        val searchHistoryList: MutableList<Track> =
+        searchHistory = SearchHistory(historySharedPreferences)
+        val searchHistoryList: MutableList<Track> =//searchHistory.read()!!.toMutableList()
             ((searchHistory.read())?.toMutableList() ?: listOf<Track>()).toMutableList()
         editSearchHistory = searchHistory.editList(searchHistoryList, track)
-        adapterHistory.tracks= editSearchHistory as ArrayList<Track>
+        adapterHistory.tracks = editSearchHistory as ArrayList<Track>
         adapterHistory.notifyDataSetChanged()
-
 
 
     }

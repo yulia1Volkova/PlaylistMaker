@@ -5,8 +5,8 @@
     android:layout_height="@dimen/settings_button"
     android:background="?attr/colorPrimary"
     android:orientation="horizontal"
-    android:paddingStart="@dimen/search_padding"
-    android:paddingEnd="@dimen/search_padding">
+    android:paddingStart="@dimen/recycler_padding"
+    android:paddingEnd="@dimen/recycler_padding">
 
     <ImageView
         android:id="@+id/trackCover"
@@ -27,7 +27,6 @@
             android:id="@+id/trackName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_regular"
             android:lines="1"
@@ -79,8 +78,8 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="@dimen/image_size_small"
-        android:layout_height="@dimen/image_size_small"
+        android:layout_width="@dimen/search_margin"
+        android:layout_height="@dimen/fourteen"
         android:layout_gravity="center_vertical"
         android:src="@drawable/arrow_forward"></ImageView>
 

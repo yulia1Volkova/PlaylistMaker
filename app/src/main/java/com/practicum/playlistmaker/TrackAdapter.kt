@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class TrackAdapter(
-    val trackClickListener: SearchActivity
+    val trackClickListener: TrackClickListener
 ) : RecyclerView.Adapter<TrackViewHolder>() {
 
     var tracks = ArrayList<Track>()

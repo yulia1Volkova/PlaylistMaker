@@ -5,6 +5,11 @@ import com.google.gson.Gson
 
 class SearchHistory(val sharedPreferences: SharedPreferences) {
 
+//    fun read(): Array<Track> {
+//        val json = sharedPreferences.getString(HISTORY_KEY, "")
+//        return Gson().fromJson(json, Array<Track>::class.java)
+//    }
+
     fun read(): Array<Track>? {
         val json = sharedPreferences.getString(HISTORY_KEY, null) ?: return null
         return Gson().fromJson(json, Array<Track>::class.java)
