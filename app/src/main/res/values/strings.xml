@@ -16,4 +16,6 @@
     <string name="no_int_message">Загрузка не удалась. Проверьте подключение к итнертнету</string>
     <string name="nothing_found">Ничего не нашлось</string>
     <string name="update">Обновить</string>
+    <string name="history">Вы искали</string>
+    <string name="clear_history">Очистить историю</string>
 </resources>

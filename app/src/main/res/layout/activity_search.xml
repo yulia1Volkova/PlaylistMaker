@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/colorPrimary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,73 +75,108 @@
             android:visibility="gone"
             app:tint="?attr/colorPrimaryVariant" />
     </FrameLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trackView"
+        <LinearLayout
+            android:id="@+id/historyView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:orientation="vertical"
+            >
 
+            <TextView
+                android:id="@+id/historyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/history_text"
+                android:layout_gravity="center"
+                android:text="@string/history"
+                android:textSize="@dimen/placeholder_text_size"
+                android:textFontWeight="500"
+                android:fontFamily="@font/ys_display_medium"
+                android:textColor="?attr/colorOnSecondary"
+                android:paddingTop="@dimen/settings_text_size"
+                android:visibility="gone"
+                />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-       >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trackView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        <ImageView
-            android:id="@+id/placeholderImage"
-            style="@style/NoInternetImg"
-            android:layout_width="@dimen/image_placeholder"
-            android:layout_height="@dimen/image_placeholder"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"/>
+            <Button
+                android:id="@+id/clearHistory"
+                style="@style/ButtonUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/medium_padding"
+                android:backgroundTint="?attr/colorOnSecondary"
+                android:text="@string/clear_history"
+                android:visibility="gone"
+                app:cornerRadius="@dimen/update_radius" />
 
-        <ImageView
-            android:id="@+id/nothingFindImage"
-            style="@style/NothingFound"
-            android:layout_width="@dimen/image_placeholder"
-            android:layout_height="@dimen/image_placeholder"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/placeholderMessage"
-            style="@style/NothingFound"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:visibility="gone"/>
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/noInternetMessage"
-            style="@style/NothingFound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/search_padding"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:visibility="gone"
-            android:text="@string/no_int_message"/>
+            <ImageView
+                android:id="@+id/placeholderImage"
+                style="@style/NoInternetImg"
+                android:layout_width="@dimen/image_placeholder"
+                android:layout_height="@dimen/image_placeholder"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/updateButton"
-            android:layout_width = "wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            style="@style/ButtonUpdate"
-            android:layout_marginTop = "@dimen/medium_padding"
-            android:text="@string/update"
-            app:cornerRadius = "@dimen/update_radius"
-            android:backgroundTint="?attr/colorOnSecondary"
-            android:visibility="gone"
-            />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/nothingFindImage"
+                style="@style/NothingFound"
+                android:layout_width="@dimen/image_placeholder"
+                android:layout_height="@dimen/image_placeholder"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/placeholderMessage"
+                style="@style/NothingFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/noInternetMessage"
+                style="@style/NothingFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/search_padding"
+                android:text="@string/no_int_message"
+                android:textAlignment="center"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/updateButton"
+                style="@style/ButtonUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/medium_padding"
+                android:backgroundTint="?attr/colorOnSecondary"
+                android:text="@string/update"
+                android:visibility="gone"
+                app:cornerRadius="@dimen/update_radius" />
+        </LinearLayout>
     </FrameLayout>
 
 </LinearLayout>

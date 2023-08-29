@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -30,7 +31,14 @@ class TrackViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
             .centerCrop()
             .transform(RoundedCorners(4))
             .into(trackCover)
-
+    }
+    fun setOnTrackListener(listener : onTrackClickListener){
+        itemView.setOnClickListener{
+            listener.action()
+        }
     }
 
+}
+interface onTrackClickListener {
+    fun action()
 }
