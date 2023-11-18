@@ -61,4 +61,33 @@
         <item name="backgroundTint">@color/text_color</item>
     </style>
 
+    <style name="AudioPlayerBottomLeft">
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textSize">@dimen/audio_bottom_text_size</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
+
+    <style name="AudioPlayerBottomRight">
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textSize">@dimen/audio_bottom_text_size</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+    </style>
+
+    <style name="AudioPlayerLike">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:src">@drawable/like</item>
+    </style>
+
+    <style name="AudioPlayerAdd">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:src">@drawable/addtrack</item>
+    </style>
+
+    <style name="AudioPlayerPlay">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:src">@drawable/play</item>
+    </style>
+
 </resources>

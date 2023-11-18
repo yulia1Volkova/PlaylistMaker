@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -266,6 +267,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
         editSearchHistory = searchHistory.editList(searchHistoryList, track)
         adapterHistory.tracks = editSearchHistory as ArrayList<Track>
         adapterHistory.notifyDataSetChanged()
+        val playerIntent = Intent(this, Audioplayer::class.java)
+        playerIntent.putExtra("track", track)
+        startActivity(playerIntent)
 
 
     }

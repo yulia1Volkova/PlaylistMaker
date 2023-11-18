@@ -30,7 +30,7 @@ class TrackAdapter(
 
     override fun getItemCount() = tracks.size
 
-    interface TrackClickListener {
+     fun interface TrackClickListener {
         fun onTrackClick(track: Track)
     }
 
