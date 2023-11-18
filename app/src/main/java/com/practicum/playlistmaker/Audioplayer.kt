@@ -19,7 +19,7 @@ class Audioplayer : AppCompatActivity() {
         setContentView(R.layout.activity_audioplayer)
 
         val backButton = findViewById<ImageButton>(R.id.backButton)
-        val imageCover = findViewById<ImageView>(R.id.cover)
+        val imageCover = findViewById<ImageView>(R.id.coverImageView)
         val textViewTrackName = findViewById<TextView>(R.id.trackNameData)
         val textViewArtistName = findViewById<TextView>(R.id.artistNameData)
         val textViewDuration = findViewById<TextView>(R.id.durationData)

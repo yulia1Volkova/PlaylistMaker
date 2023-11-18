@@ -258,7 +258,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
         }
     }
 
-
+    
     override fun onTrackClick(track: Track) {
         var historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(historySharedPreferences)
