@@ -33,4 +33,19 @@
     <item name="android:textFontWeight">500</item>
     <item name="backgroundTint">@color/white</item>
     </style>
+
+    <style name="AudioPlayerLike">
+        <item name="android:background">@drawable/round_button_dark</item>
+        <item name="android:src">@drawable/like_dark</item>
+    </style>
+
+    <style name="AudioPlayerAdd">
+        <item name="android:background">@drawable/round_button_dark</item>
+        <item name="android:src">@drawable/add_track_dark</item>
+    </style>
+
+    <style name="AudioPlayerPlay">
+        <item name="android:background">@drawable/round_button_dark</item>
+        <item name="android:src">@drawable/play_dark</item>
+    </style>
 </resources>
