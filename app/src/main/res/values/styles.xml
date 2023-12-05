@@ -80,14 +80,14 @@
         <item name="android:src">@drawable/like</item>
     </style>
 
-    <style name="AudioPlayerAdd">
+    <style name="AudioPlayerAddImageButton">
         <item name="android:background">@drawable/round_button</item>
         <item name="android:src">@drawable/addtrack</item>
     </style>
 
     <style name="AudioPlayerPlay">
         <item name="android:background">@drawable/round_button</item>
-        <item name="android:src">@drawable/play</item>
+
     </style>
 
 </resources>

@@ -39,13 +39,12 @@
         <item name="android:src">@drawable/like_dark</item>
     </style>
 
-    <style name="AudioPlayerAdd">
+    <style name="AudioPlayerAddImageButton">
         <item name="android:background">@drawable/round_button_dark</item>
         <item name="android:src">@drawable/add_track_dark</item>
     </style>
 
     <style name="AudioPlayerPlay">
         <item name="android:background">@drawable/round_button_dark</item>
-        <item name="android:src">@drawable/play_dark</item>
     </style>
 </resources>
