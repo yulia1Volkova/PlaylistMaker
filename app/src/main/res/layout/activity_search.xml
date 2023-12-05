@@ -176,6 +176,13 @@
                 android:text="@string/update"
                 android:visibility="gone"
                 app:cornerRadius="@dimen/update_radius" />
+
+            <ProgressBar android:id="@+id/progressBar"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/clear_sky"
+                android:visibility="gone"/>
         </LinearLayout>
     </FrameLayout>
 
