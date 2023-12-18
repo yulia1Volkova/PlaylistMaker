@@ -9,7 +9,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -20,6 +19,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.ui.AudioPlayerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -296,11 +297,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
 
 
     override fun onTrackClick(track: Track) {
-        // var historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
         if (clickDebounce()) {
         searchHistory = SearchHistory(historySharedPreferences)
         val searchHistoryList: MutableList<Track> = searchHistory.read().toMutableList()
-        //((searchHistory.read())?.toMutableList() ?: listOf<Track>()).toMutableList()
         editSearchHistory = searchHistory.editList(searchHistoryList, track)
         adapterHistory.tracks = editSearchHistory as ArrayList<Track>
         adapterHistory.notifyDataSetChanged()

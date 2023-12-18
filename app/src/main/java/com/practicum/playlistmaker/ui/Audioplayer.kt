@@ -1,6 +1,5 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui
 
-import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -12,26 +11,27 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.Group
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.creator.Creator
+import com.practicum.playlistmaker.domain.models.PlayerState
+import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.presentation.mapper.TrackMapper
 
 
 class AudioPlayerActivity : AppCompatActivity() {
 
     companion object {
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
         private const val DELAY = 500L
+        private const val STARTTIMER = "00:00"
     }
 
+    private val playerInteractor = Creator.providePlayerInteractor()
+
     private var mainThreadHandler: Handler? = null
-    private var playerState = STATE_DEFAULT
-    private var mediaPlayer = MediaPlayer()
     private var url: String = ""
     private lateinit var play: ImageButton
     private lateinit var textViewTimer: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +50,16 @@ class AudioPlayerActivity : AppCompatActivity() {
         play = findViewById(R.id.playButtonImageButton)
         textViewTimer = findViewById(R.id.timerTextView)
 
-        val playerTrack = intent.getSerializableExtra("track") as Track
+        val playerTrack = TrackMapper.map(
+            intent.getSerializableExtra("track") as Track
+        )
+
         url = playerTrack.previewUrl
-        preparePlayer()
+        playerInteractor.createPlayer(url)
+        play.isEnabled = true
+        play.setImageResource(R.drawable.play)
+        textViewTimer.text = STARTTIMER
+
         mainThreadHandler = Handler(Looper.getMainLooper())
 
         backButton.setOnClickListener {
@@ -63,9 +70,8 @@ class AudioPlayerActivity : AppCompatActivity() {
             playbackControl()
         }
 
-
         Glide.with(applicationContext)
-            .load(playerTrack.getCoverArtwork())
+            .load(playerTrack.artworkUrl512)
             .placeholder(R.drawable.placeholder)
             .centerCrop()
             .transform(RoundedCorners(8))
@@ -73,8 +79,10 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         textViewTrackName.text = playerTrack.trackName
         textViewArtistName.text = playerTrack.artistName
-        textViewDuration.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(playerTrack.trackTimeMillis)
+        textViewDuration.text = playerTrack.trackTime
+        textViewYear.text = playerTrack.releaseDate
+        textViewGenre.text = playerTrack.primaryGenreName
+        textViewCountry.text = playerTrack.country
 
         if (playerTrack.collectionName.isNullOrEmpty()) {
             albumGroup.visibility = View.GONE
@@ -83,65 +91,49 @@ class AudioPlayerActivity : AppCompatActivity() {
             textViewAlbum.text = playerTrack.collectionName
         }
 
-        textViewYear.text = playerTrack.releaseDate.substring(0, 4)
-        textViewGenre.text = playerTrack.primaryGenreName
-        textViewCountry.text = playerTrack.country
-
     }
 
-    private fun preparePlayer() {
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            play.isEnabled = true
-            playerState = STATE_PREPARED
-        }
-        mediaPlayer.setOnCompletionListener {
-            play.setImageResource(R.drawable.play)
-            textViewTimer.text="00:00"
-            playerState = STATE_PREPARED
+    private fun playbackControl() {
+        when (playerInteractor.getState()) {
+            PlayerState.PLAYING -> {
+                playerInteractor.pause()
+                play.setImageResource(R.drawable.play)
+            }
+
+            PlayerState.END -> {
+                textViewTimer.text = STARTTIMER
+                statePlaying()
+            }
+
+            PlayerState.PREPARED, PlayerState.PAUSED, PlayerState.DEFAULT -> {
+                statePlaying()
+
+            }
         }
     }
 
-    private fun startPlayer() {
-        mediaPlayer.start()
+    private fun statePlaying() {
+        playerInteractor.play()
         play.setImageResource(R.drawable.pause)
-        playerState = STATE_PLAYING
         mainThreadHandler?.post(
             createUpdateTimerTask()
         )
     }
 
-    private fun pausePlayer() {
-        mediaPlayer.pause()
-        play.setImageResource(R.drawable.play)
-        playerState = STATE_PAUSED
-
-    }
-
-    private fun playbackControl() {
-        when (playerState) {
-            STATE_PLAYING -> {
-                pausePlayer()
-            }
-
-            STATE_PREPARED, STATE_PAUSED -> {
-                startPlayer()
-            }
-        }
-    }
 
     private fun createUpdateTimerTask(): Runnable {
         return object : Runnable {
             override fun run() {
-
-                mediaPlayer.getCurrentPosition()
-                        if (playerState==STATE_PLAYING) {
-                    textViewTimer.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+                val state: PlayerState = playerInteractor.getState()
+                if (state == PlayerState.PLAYING) {
+                    textViewTimer.text = playerInteractor.getCurrentPosition()
                     mainThreadHandler?.postDelayed(this, DELAY)
-                }
-                else{
+                } else {
                     mainThreadHandler?.removeCallbacks(this)
+                    if (state == PlayerState.END) {
+                        play.setImageResource(R.drawable.play)
+                        textViewTimer.text = STARTTIMER
+                    }
                 }
             }
         }
@@ -149,11 +141,12 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        pausePlayer()
+        playerInteractor.pause()
+        play.setImageResource(R.drawable.play)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release()
+        playerInteractor.release()
     }
 }
