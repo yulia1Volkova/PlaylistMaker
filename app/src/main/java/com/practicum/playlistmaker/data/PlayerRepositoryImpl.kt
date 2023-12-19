@@ -23,7 +23,6 @@ class PlayerRepositoryImpl() : PlayerRepository {
 
         mediaPlayer.setOnCompletionListener {
             playerState = PlayerState.END
-
         }
     }
 

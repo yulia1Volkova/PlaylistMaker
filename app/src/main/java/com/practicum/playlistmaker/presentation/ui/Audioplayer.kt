@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.ui
+package com.practicum.playlistmaker.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -50,7 +50,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         play = findViewById(R.id.playButtonImageButton)
         textViewTimer = findViewById(R.id.timerTextView)
 
-        val playerTrack = TrackMapper.map(
+        val playerTrack = TrackMapper().map(
             intent.getSerializableExtra("track") as Track
         )
 
@@ -138,6 +138,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onPause() {
         super.onPause()

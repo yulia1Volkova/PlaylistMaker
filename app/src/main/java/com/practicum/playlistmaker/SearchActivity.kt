@@ -20,7 +20,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.domain.models.Track
-import com.practicum.playlistmaker.ui.AudioPlayerActivity
+import com.practicum.playlistmaker.presentation.ui.AudioPlayerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
