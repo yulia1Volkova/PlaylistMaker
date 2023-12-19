@@ -5,7 +5,7 @@ import com.practicum.playlistmaker.presentation.model.TrackInfo
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-object TrackMapper {
+class TrackMapper {
     fun map(track: Track): TrackInfo {
         return TrackInfo(
             trackId = track.trackId,
