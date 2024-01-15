@@ -1,0 +1,105 @@
+package com.practicum.playlistmaker.player.ui.view_model
+
+import android.os.Handler
+import android.os.Looper
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.practicum.playlistmaker.player.domain.api.PlayerInteractor
+import com.practicum.playlistmaker.player.domain.models.PlayerState
+import com.practicum.playlistmaker.player.ui.model.PlaybackState
+import com.practicum.playlistmaker.player.ui.model.TrackInfo
+import com.practicum.playlistmaker.util.Creator
+
+class AudioPlayerViewModel(
+    private val playerTrack: TrackInfo,
+    private val playerInteractor: PlayerInteractor
+) : ViewModel() {
+
+    companion object {
+        private const val DELAY = 500L
+        private const val STARTTIMER = "00:00"
+
+        fun getViewModelFactory(playerTrack: TrackInfo): ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    AudioPlayerViewModel(
+                        playerTrack,
+                        Creator.providePlayerInteractor()
+                    )
+                }
+            }
+    }
+
+    private val playingLiveData = MutableLiveData(PlaybackState(false, "00:00"))
+    fun getplayingLiveData(): MutableLiveData<PlaybackState> = playingLiveData
+
+    val handler = Handler(Looper.getMainLooper())
+
+    fun create() {
+        playerInteractor.createPlayer(playerTrack.previewUrl)
+    }
+
+    fun play() {
+        when (playerInteractor.getState()) {
+            PlayerState.PLAYING -> {
+                playerInteractor.pause()
+                playingLiveData.postValue(
+                    PlaybackState(
+                        false,
+                        playerInteractor.getCurrentPosition()
+                    )
+                )
+            }
+            PlayerState.PREPARED, PlayerState.PAUSED, PlayerState.DEFAULT, PlayerState.END -> {
+                statePlaying()
+            }
+        }
+    }
+
+    private fun statePlaying() {
+        playerInteractor.play()
+        playingLiveData.postValue(PlaybackState(true, playerInteractor.getCurrentPosition()))
+        handler.post(
+            createUpdateTimerTask()
+        )
+    }
+
+    private fun createUpdateTimerTask(): Runnable {
+        return object : Runnable {
+            override fun run() {
+                val state: PlayerState = playerInteractor.getState()
+                if (state == PlayerState.PLAYING) {
+                    playingLiveData.postValue(
+                        PlaybackState(
+                            true,
+                            playerInteractor.getCurrentPosition()
+                        )
+                    )
+                    handler.postDelayed(this, DELAY)
+                } else {
+                    handler.removeCallbacks(this)
+                    if (state == PlayerState.END) {
+                        playingLiveData.postValue(PlaybackState(false, STARTTIMER))
+                    }
+                }
+            }
+        }
+    }
+
+    fun onPause() {
+        playerInteractor.pause()
+        playingLiveData.postValue(
+            PlaybackState(
+                false,
+                playerInteractor.getCurrentPosition()
+            )
+        )
+    }
+
+    fun onDestroy() {
+        playerInteractor.release()
+    }
+}
