@@ -1,9 +1,9 @@
 package com.practicum.playlistmaker.sharing.domain.impl
 
-import android.content.Context
 import com.practicum.playlistmaker.sharing.domain.api.ExternalNavigator
 import com.practicum.playlistmaker.sharing.domain.api.SharingInteractor
 import com.practicum.playlistmaker.sharing.domain.model.EmailData
+
 private const val APP_LINK = "https://practicum.yandex.ru/android-developer/"
 private const val TERMS_LINK = "https://yandex.ru/legal/practicum_offer/"
 private const val SUPPORT_EMAIL = "volkova.yulia88@yandex.ru"

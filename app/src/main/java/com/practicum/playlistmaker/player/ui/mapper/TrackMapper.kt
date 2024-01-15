@@ -1,9 +1,7 @@
 package com.practicum.playlistmaker.player.ui.mapper
 
-import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.player.ui.model.TrackInfo
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.practicum.playlistmaker.search.domain.models.Track
 
 class TrackMapper {
     fun map(track: Track): TrackInfo {

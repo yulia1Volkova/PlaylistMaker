@@ -1,24 +1,21 @@
 package com.practicum.playlistmaker.player.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityAudioplayerBinding
-import com.practicum.playlistmaker.util.Creator
-import com.practicum.playlistmaker.player.domain.models.PlayerState
-import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.player.ui.mapper.TrackMapper
 import com.practicum.playlistmaker.player.ui.view_model.AudioPlayerViewModel
+import com.practicum.playlistmaker.search.domain.models.Track
 
 class AudioPlayerActivity : AppCompatActivity() {
+    companion object{
+        const val TRACK = "TRACK"
+    }
 
     private lateinit var viewModel: AudioPlayerViewModel
     private lateinit var binding: ActivityAudioplayerBinding
@@ -29,7 +26,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val playerTrack = TrackMapper().map(
-            intent.getSerializableExtra("track") as Track
+            intent.getSerializableExtra(TRACK) as Track
         )
 
         viewModel = ViewModelProvider(
@@ -88,4 +85,5 @@ class AudioPlayerActivity : AppCompatActivity() {
         viewModel.onDestroy()
         super.onDestroy()
     }
+
 }

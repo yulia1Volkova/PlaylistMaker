@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.search.ui.activity
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,22 +9,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivityAudioplayerBinding
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
-import com.practicum.playlistmaker.util.Creator
-import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.player.ui.activity.AudioPlayerActivity
-import com.practicum.playlistmaker.search.domain.api.SearchInteractor
+import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
 import com.practicum.playlistmaker.search.ui.view_model.TrackSearchViewModel
 
@@ -33,6 +24,7 @@ import com.practicum.playlistmaker.search.ui.view_model.TrackSearchViewModel
 class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
 
     private companion object {
+        const val TRACK = "TRACK"
         const val SEARCH_EDITTEXT = "SEARCH_EDITTEXT"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
@@ -224,7 +216,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
     override fun onTrackClick(track: Track) {
         if (clickDebounce()) {
             val playerIntent = Intent(this, AudioPlayerActivity::class.java)
-            playerIntent.putExtra("track", track)
+            playerIntent.putExtra(TRACK, track)
             startActivity(playerIntent)
             viewModel.historyAddTrack(track)
         }

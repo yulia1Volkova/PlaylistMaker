@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.settings.domain.impl
 
-import com.practicum.playlistmaker.search.domain.api.HistoryRepository
 import com.practicum.playlistmaker.settings.domain.api.SettingsInteractor
 import com.practicum.playlistmaker.settings.domain.api.SettingsRepository
 import com.practicum.playlistmaker.settings.domain.models.ThemeSettings

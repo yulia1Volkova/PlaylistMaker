@@ -133,7 +133,4 @@ class TrackSearchViewModel(application: Application) : AndroidViewModel(applicat
         )
     }
 
-/*    fun runIntent(){
-        historyInteractor.runIntent(track)
-    }*/
 }

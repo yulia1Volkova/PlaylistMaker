@@ -2,6 +2,7 @@ package com.practicum.playlistmaker.player.ui.view_model
 
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -34,9 +35,9 @@ class AudioPlayerViewModel(
     }
 
     private val playingLiveData = MutableLiveData(PlaybackState(false, "00:00"))
-    fun getplayingLiveData(): MutableLiveData<PlaybackState> = playingLiveData
+    fun getplayingLiveData(): LiveData<PlaybackState> = playingLiveData
 
-    val handler = Handler(Looper.getMainLooper())
+    private val handler = Handler(Looper.getMainLooper())
 
     fun create() {
         playerInteractor.createPlayer(playerTrack.previewUrl)
@@ -102,4 +103,6 @@ class AudioPlayerViewModel(
     fun onDestroy() {
         playerInteractor.release()
     }
+
+
 }

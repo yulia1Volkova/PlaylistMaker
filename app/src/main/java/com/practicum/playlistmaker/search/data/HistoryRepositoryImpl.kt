@@ -2,7 +2,6 @@ package com.practicum.playlistmaker.search.data
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.Intent
 import com.google.gson.Gson
 import com.practicum.playlistmaker.search.domain.api.HistoryRepository
 import com.practicum.playlistmaker.search.domain.models.Track

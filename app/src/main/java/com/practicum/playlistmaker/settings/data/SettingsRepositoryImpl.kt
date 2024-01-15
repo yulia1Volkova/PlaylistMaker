@@ -1,9 +1,7 @@
 package com.practicum.playlistmaker.settings.data
 
-import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import androidx.appcompat.app.AppCompatDelegate
 import com.practicum.playlistmaker.settings.domain.api.SettingsRepository
 import com.practicum.playlistmaker.settings.domain.models.ThemeSettings
 

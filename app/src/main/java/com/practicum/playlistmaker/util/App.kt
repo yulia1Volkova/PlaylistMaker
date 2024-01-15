@@ -11,9 +11,6 @@ import com.practicum.playlistmaker.settings.domain.api.SettingsRepository
 import com.practicum.playlistmaker.settings.domain.impl.SettingsInteractorImpl
 import com.practicum.playlistmaker.settings.domain.models.ThemeSettings
 
-/*const val THEME_APP_PREFERENCES = "Theme_app_preferences"
-const val THEME_APP_KEY = "key_for_theme"*/
-
 class App : Application() {
     private lateinit var interactor:SettingsInteractorImpl
     private fun getSettingsRepository(context: Context): SettingsRepository {
