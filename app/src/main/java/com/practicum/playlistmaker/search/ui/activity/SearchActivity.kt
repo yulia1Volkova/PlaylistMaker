@@ -19,6 +19,7 @@ import com.practicum.playlistmaker.player.ui.activity.AudioPlayerActivity
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
 import com.practicum.playlistmaker.search.ui.view_model.TrackSearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
@@ -29,15 +30,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private lateinit var viewModel: TrackSearchViewModel
+    private val viewModel by viewModel<TrackSearchViewModel>()
     private lateinit var binding: ActivitySearchBinding
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private var searchEditTextValue: String = ""
-
     private val adapter = TrackAdapter(this)
-        //  private val adapterHistory = TrackAdapter(this)
     private lateinit var textWatcher: TextWatcher
 
 
@@ -46,18 +45,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(
-            this,
-            TrackSearchViewModel.getViewModelFactory()
-        )[TrackSearchViewModel::class.java]
-
         viewModel.observeState().observe(this) {
             render(it)
         }
 
         binding.trackView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        //binding.trackView.adapter = adapterHistory
+
 
         binding.searchEditText.setOnFocusChangeListener { view, hasFocus ->
             viewModel.getHistory()
@@ -149,6 +143,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.TrackClickListener {
         binding.trackView.visibility = View.VISIBLE
         binding.clearHistory.visibility = View.GONE
         binding.historyTextView.visibility = View.GONE
+
         binding.trackView.adapter = adapter
         adapter.tracks = tracks as ArrayList<Track>
         adapter.notifyDataSetChanged()

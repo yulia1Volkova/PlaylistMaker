@@ -1,30 +1,35 @@
 package com.practicum.playlistmaker.util
 
 import android.app.Application
-import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import com.practicum.playlistmaker.search.data.HistoryRepositoryImpl
-import com.practicum.playlistmaker.search.domain.api.HistoryRepository
-import com.practicum.playlistmaker.search.domain.impl.HistoryInteractorImpl
-import com.practicum.playlistmaker.settings.data.SettingsRepositoryImpl
+import com.practicum.playlistmaker.di.dataModule
+import com.practicum.playlistmaker.di.interactorModule
+import com.practicum.playlistmaker.di.repositoryModule
+import com.practicum.playlistmaker.di.viewModelModule
 import com.practicum.playlistmaker.settings.domain.api.SettingsRepository
-import com.practicum.playlistmaker.settings.domain.impl.SettingsInteractorImpl
-import com.practicum.playlistmaker.settings.domain.models.ThemeSettings
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class App : Application() {
-    private lateinit var interactor:SettingsInteractorImpl
+/*    private lateinit var interactor:SettingsInteractorImpl
     private fun getSettingsRepository(context: Context): SettingsRepository {
         return SettingsRepositoryImpl(context)
     }
     fun provideSettingsInteractor(context: Context): SettingsInteractorImpl {
         return SettingsInteractorImpl(getSettingsRepository(context))
-    }
+    }*/
 
     var darkTheme: Boolean = true
-
+    private val settingsRepository: SettingsRepository by inject()
     override fun onCreate() {
         super.onCreate()
-        darkTheme=provideSettingsInteractor(this).getThemeSettings().darkThemeEnabled
+        startKoin{
+            androidContext(this@App)
+            modules(dataModule, repositoryModule, interactorModule, viewModelModule)
+        }
+
+        darkTheme=settingsRepository.getThemeSettings().darkThemeEnabled
         switchTheme(darkTheme)
     }
 
