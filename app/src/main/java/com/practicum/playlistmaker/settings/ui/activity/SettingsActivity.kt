@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel by viewModel<SettingsViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -21,11 +21,6 @@ class SettingsActivity : AppCompatActivity() {
         val texViewSupport = findViewById<TextView>(R.id.textViewSupport)
         val textViewShare = findViewById<TextView>(R.id.textViewShare)
         val textViewUseAgreement = findViewById<TextView>(R.id.textViewUseAgreement)
-
-        viewModel = ViewModelProvider(
-            this,
-            SettingsViewModel.getViewModelFactory()
-        )[SettingsViewModel::class.java]
 
         viewModel.getThemeSwitcherLiveData().observe(this) { darkThemeEnabled -> themeSwitcher.isChecked=darkThemeEnabled}
 
@@ -45,9 +40,7 @@ class SettingsActivity : AppCompatActivity() {
             viewModel.openTerms()
         }
 
-       // themeSwitcher.isChecked = (applicationContext as App).darkTheme
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
-            //(applicationContext as App).switchTheme(checked)
             viewModel.switchTheme(checked)
         }
     }

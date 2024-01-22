@@ -13,7 +13,6 @@ class SearchInteractorImpl(private val repository: TracksSearchRepository) : Sea
             executor.execute {
                // consumer.consume(repository.searchTracks(expression))
 
-
                 when(val resource = repository.searchTracks(expression)) {
                     is Resource.Success -> { consumer.consume(resource.data, null) }
                     is Resource.Error -> { consumer.consume(null, resource.message) }

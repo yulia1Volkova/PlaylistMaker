@@ -5,14 +5,10 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmaker.player.domain.api.PlayerInteractor
 import com.practicum.playlistmaker.player.domain.models.PlayerState
 import com.practicum.playlistmaker.player.ui.model.PlaybackState
 import com.practicum.playlistmaker.player.ui.model.TrackInfo
-import com.practicum.playlistmaker.util.Creator
 
 class AudioPlayerViewModel(
     private val playerTrack: TrackInfo,
@@ -22,16 +18,6 @@ class AudioPlayerViewModel(
     companion object {
         private const val DELAY = 500L
         private const val STARTTIMER = "00:00"
-
-        fun getViewModelFactory(playerTrack: TrackInfo): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    AudioPlayerViewModel(
-                        playerTrack,
-                        Creator.providePlayerInteractor()
-                    )
-                }
-            }
     }
 
     private val playingLiveData = MutableLiveData(PlaybackState(false, "00:00"))
@@ -103,6 +89,4 @@ class AudioPlayerViewModel(
     fun onDestroy() {
         playerInteractor.release()
     }
-
-
 }

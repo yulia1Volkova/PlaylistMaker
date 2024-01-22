@@ -3,21 +3,27 @@ package com.practicum.playlistmaker.player.ui.activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityAudioplayerBinding
 import com.practicum.playlistmaker.player.ui.mapper.TrackMapper
+import com.practicum.playlistmaker.player.ui.model.TrackInfo
 import com.practicum.playlistmaker.player.ui.view_model.AudioPlayerViewModel
 import com.practicum.playlistmaker.search.domain.models.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class AudioPlayerActivity : AppCompatActivity() {
     companion object{
         const val TRACK = "TRACK"
     }
+   private lateinit var playerTrack: TrackInfo
 
-    private lateinit var viewModel: AudioPlayerViewModel
+    val viewModel:AudioPlayerViewModel by viewModel{
+        parametersOf(playerTrack)
+    }
+
     private lateinit var binding: ActivityAudioplayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,14 +31,10 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding = ActivityAudioplayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val playerTrack = TrackMapper().map(
+        playerTrack = TrackMapper().map(
             intent.getSerializableExtra(TRACK) as Track
         )
 
-        viewModel = ViewModelProvider(
-            this,
-            AudioPlayerViewModel.getViewModelFactory(playerTrack)
-        )[AudioPlayerViewModel::class.java]
 
         viewModel.create()
         binding.playButtonImageButton.isEnabled = true

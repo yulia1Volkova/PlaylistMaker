@@ -8,10 +8,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class PlayerRepositoryImpl() : PlayerRepository {
-
-    private var mediaPlayer = MediaPlayer()
-    private var playerState: PlayerState = PlayerState.DEFAULT
+class PlayerRepositoryImpl(private var mediaPlayer:MediaPlayer,private var playerState: PlayerState) : PlayerRepository {
 
     override fun createPlayer(url: String) {
         mediaPlayer.setDataSource(url)
