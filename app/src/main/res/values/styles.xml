@@ -87,7 +87,7 @@
 
     <style name="AudioPlayerPlay">
         <item name="android:background">@drawable/round_button</item>
-
     </style>
+
 
 </resources>

@@ -53,6 +53,6 @@ val dataModule = module {
 
     factory { MediaPlayer() }
 
-    single { PlayerState.DEFAULT }
+         single { PlayerState.DEFAULT }
 
 }
