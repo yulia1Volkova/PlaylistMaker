@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/color">
 
     <ImageView
         android:id="@+id/placeholderImage"
@@ -13,6 +13,7 @@
         android:layout_width="@dimen/image_placeholder"
         android:layout_height="@dimen/image_placeholder"
         android:layout_gravity="center_horizontal"
+        android:background="?attr/color"
         />
 
 
@@ -26,6 +27,7 @@
         android:layout_marginHorizontal="@dimen/image_size_small"
         android:text="@string/no_favorites"
         android:textAlignment="center"
+        android:background="?attr/color"
         />
 
 

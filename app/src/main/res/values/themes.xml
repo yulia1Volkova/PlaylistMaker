@@ -9,7 +9,8 @@
         <item name="colorSecondaryVariant">@color/clear_sky</item>
         <item name="colorOnSecondary">@color/text_color</item>
         <!-- Status bar color. -->
-        <!--<item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="color">@color/white</item>
     </style>
 
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">

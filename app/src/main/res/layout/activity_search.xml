@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -135,7 +135,8 @@
                 android:layout_width="@dimen/image_placeholder"
                 android:layout_height="@dimen/image_placeholder"
                 android:layout_gravity="center_horizontal"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:background="?attr/color"/>
 
             <ImageView
                 android:id="@+id/nothingFindImage"
@@ -143,7 +144,8 @@
                 android:layout_width="@dimen/image_placeholder"
                 android:layout_height="@dimen/image_placeholder"
                 android:layout_gravity="center_horizontal"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:background="?attr/color"/>
 
             <TextView
                 android:id="@+id/placeholderMessage"
@@ -152,7 +154,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="center"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:background="?attr/color"/>
 
             <TextView
                 android:id="@+id/noInternetMessage"
@@ -163,7 +166,8 @@
                 android:layout_marginTop="@dimen/search_padding"
                 android:text="@string/no_int_message"
                 android:textAlignment="center"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:background="?attr/color"/>
 
             <Button
                 android:id="@+id/updateButton"
