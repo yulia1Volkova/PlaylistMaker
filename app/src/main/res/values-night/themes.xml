@@ -6,11 +6,12 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/white</item>
-        <item name="colorSecondaryVariant">@color/black</item>
+        <item name="colorSecondaryVariant">@color/text_color</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="android:background">@color/black</item>
-
+        <!--<item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+        <item name="color">@color/text_color</item>
     </style>
+
+
 </resources>

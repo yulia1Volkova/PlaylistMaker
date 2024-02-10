@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:src="@drawable/arrow_back"
-            app:tint="?attr/colorOnPrimary" />
+            app:tint="?attr/colorOnSecondary" />
 
         <TextView
             android:layout_width="wrap_content"
