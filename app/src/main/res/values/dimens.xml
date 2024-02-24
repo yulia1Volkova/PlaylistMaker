@@ -29,5 +29,6 @@
     <dimen name="dp_4">4dp</dimen>
     <dimen name="dp_46">46dp</dimen>
     <dimen name="dp_106">106dp</dimen>
+    <dimen name="sp_12">12sp</dimen>
 
 </resources>
