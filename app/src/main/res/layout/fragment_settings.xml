@@ -33,7 +33,9 @@
         android:layout_gravity="end"
         android:layout_marginHorizontal="@dimen/settings_text_size"
         android:text="@string/dark_theme"
-        app:thumbTint="@color/text_gray"
+
+        app:thumbTint="@drawable/switcher_color"
+        app:trackTint = "@drawable/switcher_track_color"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="@dimen/settings_text_size"/>
 
