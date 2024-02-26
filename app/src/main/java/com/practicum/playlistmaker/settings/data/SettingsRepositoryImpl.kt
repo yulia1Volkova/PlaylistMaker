@@ -6,9 +6,9 @@ import com.practicum.playlistmaker.settings.domain.models.ThemeSettings
 
 const val THEME_APP_KEY = "key_for_theme"
 
-class SettingsRepositoryImpl(private val sharedPrefs: SharedPreferences ): SettingsRepository {
+class SettingsRepositoryImpl(private val sharedPrefs: SharedPreferences) : SettingsRepository {
 
-    var darkTheme:Boolean = false
+    var darkTheme: Boolean = false
 
     override fun getThemeSettings(): ThemeSettings {
 
@@ -17,12 +17,11 @@ class SettingsRepositoryImpl(private val sharedPrefs: SharedPreferences ): Setti
     }
 
     override fun updateThemeSetting(settings: ThemeSettings) {
-        val currentTheme=sharedPrefs.getBoolean(THEME_APP_KEY, darkTheme)
-        if (currentTheme!=settings.darkThemeEnabled){
-       // darkTheme = settings.darkThemeEnabled
-        sharedPrefs.edit()
-            .putBoolean(THEME_APP_KEY, settings.darkThemeEnabled)
-            .apply()
+        val currentTheme = sharedPrefs.getBoolean(THEME_APP_KEY, darkTheme)
+        if (currentTheme != settings.darkThemeEnabled) {
+            sharedPrefs.edit()
+                .putBoolean(THEME_APP_KEY, settings.darkThemeEnabled)
+                .apply()
         }
     }
 }

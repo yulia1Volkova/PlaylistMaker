@@ -17,17 +17,16 @@ class App : Application() {
     private val settingsRepository: SettingsRepository by inject()
     override fun onCreate() {
         super.onCreate()
-        startKoin{
+        startKoin {
             androidContext(this@App)
             modules(dataModule, repositoryModule, interactorModule, viewModelModule)
         }
 
-        darkTheme=settingsRepository.getThemeSettings().darkThemeEnabled
+        darkTheme = settingsRepository.getThemeSettings().darkThemeEnabled
         switchTheme(darkTheme)
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
-        darkTheme = darkThemeEnabled
         AppCompatDelegate.setDefaultNightMode(
             if (darkThemeEnabled) {
                 AppCompatDelegate.MODE_NIGHT_YES
