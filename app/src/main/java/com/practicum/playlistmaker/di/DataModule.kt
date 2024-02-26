@@ -39,14 +39,14 @@ val dataModule = module {
             .create(ITunesAPI::class.java)
     }
 
-    single<SharedPreferences>(named(HISTORY_PREFERENCES)) {
+    factory<SharedPreferences>(named(HISTORY_PREFERENCES)) {
         androidContext()
             .getSharedPreferences(HISTORY_PREFERENCES, Context.MODE_PRIVATE)
     }
 
     factory { Gson() }
 
-    single(named(THEME_APP_PREFERENCES)) {
+    factory(named(THEME_APP_PREFERENCES)) {
         androidContext()
             .getSharedPreferences(THEME_APP_PREFERENCES, Context.MODE_PRIVATE)
     }

@@ -11,6 +11,9 @@
         <!-- Status bar color. -->
         <!--<item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
         <item name="color">@color/text_color</item>
+        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView
+        </item>
+
     </style>
 
 

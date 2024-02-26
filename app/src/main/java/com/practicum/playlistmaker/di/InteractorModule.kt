@@ -26,7 +26,7 @@ val interactorModule = module{
         SearchInteractorImpl(get())
     }
 
-    single<SettingsInteractor> {
+    factory<SettingsInteractor> {
         SettingsInteractorImpl(get())
     }
 

@@ -11,8 +11,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="color">@color/white</item>
+        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView
+        </item>
     </style>
 
-    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
-    </style>
+    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker"></style>
 </resources>
