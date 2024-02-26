@@ -23,7 +23,7 @@ val repositoryModule = module {
         PlayerRepositoryImpl(get(),get())
     }
 
-    single<SettingsRepository> {
+    factory<SettingsRepository> {
         SettingsRepositoryImpl(get(named(THEME_APP_PREFERENCES)))
     }
 

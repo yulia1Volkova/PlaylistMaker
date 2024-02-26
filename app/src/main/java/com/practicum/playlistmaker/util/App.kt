@@ -12,13 +12,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class App : Application() {
-/*    private lateinit var interactor:SettingsInteractorImpl
-    private fun getSettingsRepository(context: Context): SettingsRepository {
-        return SettingsRepositoryImpl(context)
-    }
-    fun provideSettingsInteractor(context: Context): SettingsInteractorImpl {
-        return SettingsInteractorImpl(getSettingsRepository(context))
-    }*/
 
     var darkTheme: Boolean = true
     private val settingsRepository: SettingsRepository by inject()

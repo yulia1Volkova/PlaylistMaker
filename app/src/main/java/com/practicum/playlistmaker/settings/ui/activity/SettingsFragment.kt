@@ -23,7 +23,8 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getThemeSwitcherLiveData().observe(viewLifecycleOwner) { darkThemeEnabled -> binding.themeSwitcher.isChecked=darkThemeEnabled}
+        viewModel.getThemeSwitcherLiveData().observe(viewLifecycleOwner) { darkThemeEnabled -> if ((binding.themeSwitcher.isChecked)!=darkThemeEnabled )
+            { binding.themeSwitcher.isChecked=darkThemeEnabled}}
 
         binding.textViewSupport.setOnClickListener {
             viewModel.openSupport()
