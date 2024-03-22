@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.playlistmaker.R
@@ -22,9 +23,11 @@ import com.practicum.playlistmaker.player.ui.activity.AudioPlayerActivity
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.ui.models.TrackSearchState
 import com.practicum.playlistmaker.search.ui.view_model.TrackSearchViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchFragment: Fragment(), TrackAdapter.TrackClickListener   {
+class SearchFragment : Fragment(), TrackAdapter.TrackClickListener {
 
     private companion object {
         const val TRACK = "TRACK"
@@ -34,14 +37,17 @@ class SearchFragment: Fragment(), TrackAdapter.TrackClickListener   {
 
     private val viewModel by viewModel<TrackSearchViewModel>()
     private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
     private var searchEditTextValue: String = ""
     private val adapter = TrackAdapter(this)
     private lateinit var textWatcher: TextWatcher
-    private var _binding: FragmentSearchBinding?=null
-    private val  binding get() = _binding!!
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -67,9 +73,9 @@ class SearchFragment: Fragment(), TrackAdapter.TrackClickListener   {
             viewModel.getHistory()
 
 
-                val imm =
-                    requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view?.windowToken, 0)
+            val imm =
+                requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view?.windowToken, 0)
 
         }
 
@@ -87,6 +93,7 @@ class SearchFragment: Fragment(), TrackAdapter.TrackClickListener   {
                 )
 
             }
+
             override fun afterTextChanged(s: Editable?) {}
         }
         textWatcher?.let { binding.searchEditText.addTextChangedListener(it) }
@@ -107,7 +114,10 @@ class SearchFragment: Fragment(), TrackAdapter.TrackClickListener   {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
         }
         return current
     }
@@ -220,4 +230,4 @@ class SearchFragment: Fragment(), TrackAdapter.TrackClickListener   {
             viewModel.historyAddTrack(track)
         }
     }
-    }
+}
