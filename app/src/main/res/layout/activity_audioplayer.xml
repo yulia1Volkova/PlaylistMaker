@@ -73,6 +73,7 @@
     <ImageButton
         android:id="@+id/addButtonImageButton"
         style="@style/AudioPlayerAddImageButton"
+        android:src="@drawable/addtrack"
         android:layout_width="@dimen/history_text"
         android:layout_height="@dimen/history_text"
         android:layout_marginStart="@dimen/search_margin"
@@ -98,6 +99,7 @@
     <ImageButton
         android:id="@+id/likeImageButton"
         style="@style/AudioPlayerLike"
+        android:src="@drawable/like"
         android:layout_width="@dimen/history_text"
         android:layout_height="@dimen/history_text"
         android:layout_marginEnd="@dimen/search_margin"

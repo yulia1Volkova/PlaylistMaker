@@ -47,6 +47,10 @@ class AudioPlayerActivity : AppCompatActivity() {
             viewModel.play()
         }
 
+        binding.likeImageButton.setOnClickListener{
+            viewModel.likeClick()
+        }
+
         viewModel.getplayingLiveData().observe(this) { playbackState ->
             if (playbackState.plays) {
                 binding.playButtonImageButton.setImageResource(R.drawable.pause)
@@ -54,6 +58,14 @@ class AudioPlayerActivity : AppCompatActivity() {
                 binding.playButtonImageButton.setImageResource(R.drawable.play)
             }
             binding.timerTextView.text = playbackState.position
+        }
+
+        viewModel.getFavoritesLiveData().observe(this) { isFavorite ->
+            if (isFavorite) {
+                binding.likeImageButton.setImageResource(R.drawable.is_favorite)
+            } else {
+                binding.likeImageButton.setImageResource(R.drawable.like)
+            }
         }
 
         Glide.with(applicationContext)
