@@ -46,12 +46,19 @@ class FavoriteFragment: Fragment(), TrackAdapter.TrackClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.observeState().observe(viewLifecycleOwner) {
-            render(it)
-        }
-
         binding.trackView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        viewModel.observeState().observe(viewLifecycleOwner) { state ->
+            render(state)
+        }
+    }
+
+    private fun render(state: FavoriteState) {
+        when (state) {
+            is FavoriteState.FavoriteContent -> showContent(state.trackInfo)
+            is FavoriteState.noFavorite -> showEmpty()
+        }
     }
 
         override fun onDestroyView() {
@@ -72,12 +79,7 @@ class FavoriteFragment: Fragment(), TrackAdapter.TrackClickListener {
     }
 
 
-    private fun render(state: FavoriteState) {
-        when (state) {
-            is FavoriteState.FavoriteContent -> showContent(state.trackInfo)
-            is FavoriteState.noFavorite -> showEmpty()
-        }
-    }
+
 
     private fun showContent(tracks: List<Track>) {
         binding.placeholderImage.visibility = View.GONE

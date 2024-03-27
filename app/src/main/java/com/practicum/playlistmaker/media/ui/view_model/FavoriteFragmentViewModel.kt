@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker.media.ui.view_model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,24 +18,25 @@ class FavoriteFragmentViewModel(
 ) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<FavoriteState>()
+    init {
+        getData()
+    }
     fun observeState(): LiveData<FavoriteState> = stateLiveData
 
-    init {
-        getState()
-    }
-
-    fun getState(){
+    fun getData(){
         viewModelScope.launch {
-            favoritesInteractor.getFavoritesTracks().collect {
-                if (it == null) {
-                    stateLiveData.postValue(FavoriteState.noFavorite)
-                } else {
-                    if (it.isEmpty()) {
-                        stateLiveData.postValue(FavoriteState.noFavorite)
-                    } else {
-                        stateLiveData.postValue(FavoriteState.FavoriteContent(it))
-                    }
-                }
+            favoritesInteractor.getFavoritesTracks().collect { tracks -> getState(tracks) }
+
+        }
+    }
+    fun getState(tracks:List<Track>){
+        if (tracks == null) {
+            stateLiveData.postValue(FavoriteState.noFavorite)
+        } else {
+            if (tracks.isEmpty()) {
+                stateLiveData.postValue(FavoriteState.noFavorite)
+            } else {
+                stateLiveData.postValue(FavoriteState.FavoriteContent(tracks))
             }
         }
     }
