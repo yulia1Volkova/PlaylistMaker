@@ -52,6 +52,13 @@ class FavoriteFragment: Fragment(), TrackAdapter.TrackClickListener {
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             render(state)
         }
+        viewModel.getData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getData()
+
     }
 
     private fun render(state: FavoriteState) {
@@ -65,6 +72,7 @@ class FavoriteFragment: Fragment(), TrackAdapter.TrackClickListener {
         super.onDestroyView()
         _binding = null
     }
+
 
     private fun clickDebounce(): Boolean {
         val current = isClickAllowed
