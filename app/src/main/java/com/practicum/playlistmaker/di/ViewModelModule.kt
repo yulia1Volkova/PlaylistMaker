@@ -27,7 +27,7 @@ val viewModelModule = module{
         PlaylistsFragmentViewModel()
     }
     viewModel{
-        FavoriteFragmentViewModel()
+        FavoriteFragmentViewModel(get())
     }
 
 }

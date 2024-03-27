@@ -18,6 +18,6 @@ interface TrackDao {
     @Query("SELECT * FROM favorite_tracks_table")
     suspend fun getTracks(): List<TrackEntity>
 
-    @Query("SELECT COUNT(*) as count FROM favorite_tracks_table WHERE trackId = :trackId")
-    suspend fun isFavorite(trackId:Int): Int
+    @Query("SELECT EXISTS(SELECT * FROM favorite_tracks_table WHERE trackId = :trackId)")
+    suspend fun isFavorite(trackId:Int): Boolean
 }

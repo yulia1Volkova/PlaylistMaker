@@ -13,8 +13,10 @@ import com.practicum.playlistmaker.player.ui.model.PlaybackState
 import com.practicum.playlistmaker.player.ui.model.TrackInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlin.properties.Delegates
 
@@ -30,7 +32,16 @@ class AudioPlayerViewModel(
     }
 
     private val playingLiveData = MutableLiveData(PlaybackState(false, "00:00"))
-    private val favoritesLiveData = MutableLiveData(isFavorite(playerTrack.trackId))
+    private val favoritesLiveData = MutableLiveData(false)
+
+        init {
+        getFav(playerTrack.trackId)
+    }
+    fun getFav(id: Int) {
+        viewModelScope.launch { favoritesLiveData.postValue(favoritesInteractor.isFavorite(id)) }
+    }
+
+
     fun getplayingLiveData(): LiveData<PlaybackState> = playingLiveData
     fun getFavoritesLiveData(): LiveData<Boolean> = favoritesLiveData
 
@@ -59,14 +70,13 @@ class AudioPlayerViewModel(
     }
 
     fun likeClick() {
-        if (isFavorite(playerTrack.trackId)) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            if (favoritesInteractor.isFavorite(playerTrack.trackId)) {
                 val track = TrackMapper().map(playerTrack)
                 favoritesInteractor.deleteFromFavorites(track)
-            }
-            favoritesLiveData.postValue(false)
-        } else {
-            viewModelScope.launch {
+                favoritesLiveData.postValue(false)
+
+            } else {
                 val track = TrackMapper().map(playerTrack)
                 favoritesInteractor.addToFavorites(track)
                 favoritesLiveData.postValue(true)
@@ -109,12 +119,6 @@ class AudioPlayerViewModel(
         playerInteractor.release()
     }
 
-    private fun isFavorite(trackId: Int): Boolean {
-        var count=0
-        viewModelScope.launch {
-            count = favoritesInteractor.isFavorite(trackId)
 
-        }
-        return count != 0
-    }
+
 }

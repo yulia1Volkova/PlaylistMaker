@@ -21,7 +21,7 @@ class FavoritesInteractorImpl(
     override fun getFavoritesTracks(): Flow<List<Track>> =
         favoritesRepository.getFavoritesTracks()
 
-    override suspend fun isFavorite(trackId:Int):Int =
+    override suspend fun isFavorite(trackId:Int):Boolean =
         favoritesRepository.isFavorite(trackId)
 
 

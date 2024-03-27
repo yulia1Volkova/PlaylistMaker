@@ -6,6 +6,15 @@
     android:orientation="vertical"
     android:background="?attr/color">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trackView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_text_size"
+        android:layout_weight="1"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
     <ImageView
         android:id="@+id/placeholderImage"
         style="@style/NothingFound"
