@@ -52,7 +52,7 @@
             android:singleLine="true"
             android:textColor="@color/text_color"
             android:textColorHint="?attr/colorPrimaryVariant"
-            android:textCursorDrawable="@color/clear_sky"
+            android:textCursorDrawable="@drawable/cursor"
             android:textFontWeight="400"
             android:textSize="@dimen/settings_text_size" />
 
@@ -117,7 +117,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_102"
             android:orientation="vertical">
 
             <ImageView
@@ -127,7 +127,7 @@
                 android:layout_height="@dimen/image_placeholder"
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/color"
-                android:visibility="gone" />
+               android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/nothingFindImage"

@@ -10,7 +10,7 @@ class TrackMapper {
             trackName = track.trackName?:"",
             artistName = track.artistName?:"",
             trackTime = track.trackTime?:"",
-            artworkUrl512 = track.artworkUrl100?:"".replaceAfterLast('/', "512x512bb.jpg"),
+            artworkUrl512 = if (track.artworkUrl100!=null) track.artworkUrl100!!.replaceAfterLast('/', "512x512bb.jpg") else "",
             collectionName = track.collectionName?:"",
             releaseDate = ((track.releaseDate)?:"").substring(0, 4),
             primaryGenreName = track.primaryGenreName?:"",
