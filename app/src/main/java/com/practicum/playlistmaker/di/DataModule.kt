@@ -3,7 +3,9 @@ package com.practicum.playlistmaker.di
 import android.content.Context
 import android.content.SharedPreferences
 import android.media.MediaPlayer
+import androidx.room.Room
 import com.google.gson.Gson
+import com.practicum.playlistmaker.db.data.db.AppDatabase
 import com.practicum.playlistmaker.player.data.PlayerRepositoryImpl
 import com.practicum.playlistmaker.player.domain.api.PlayerRepository
 import com.practicum.playlistmaker.player.domain.models.PlayerState
@@ -53,6 +55,11 @@ val dataModule = module {
 
     factory { MediaPlayer() }
 
-         single { PlayerState.DEFAULT }
+    single { PlayerState.DEFAULT }
+
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .build()
+    }
 
 }

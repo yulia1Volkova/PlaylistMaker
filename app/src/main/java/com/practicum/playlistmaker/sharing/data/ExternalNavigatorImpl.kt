@@ -21,6 +21,7 @@ class ExternalNavigatorImpl(val context: Context): ExternalNavigator {
         Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:")
             putExtra(Intent.EXTRA_EMAIL, arrayOf(emailData.email))
+            putExtra(Intent.EXTRA_SUBJECT, emailData.subject)
             putExtra(Intent.EXTRA_TEXT, emailData.message)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(this)

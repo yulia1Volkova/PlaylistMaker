@@ -13,7 +13,7 @@
     <string name="mail">volkova.yulia88@yandex.ru</string>
     <string name="use_agreement_text">https://yandex.ru/legal/practicum_offer/</string>
     <string name="something_went_wrong">Проблемы со связью.</string>
-    <string name="no_int_message">Загрузка не удалась. Проверьте подключение к итнертнету</string>
+    <string name="no_int_message">Загрузка не удалась. Проверьте подключение к интернету</string>
     <string name="nothing_found">Ничего не нашлось</string>
     <string name="update">Обновить</string>
     <string name="history">Вы искали</string>

@@ -36,7 +36,7 @@
 
     <style name="AudioPlayerLike">
         <item name="android:background">@drawable/round_button_dark</item>
-        <item name="android:src">@drawable/like_dark</item>
+        <!--<item name="android:src">@drawable/like_dark</item>-->
     </style>
 
     <style name="AudioPlayerAddImageButton">
